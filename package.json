@@ -1,9 +1,11 @@
 {
   "name": "font-status",
   "displayName": "font-status",
-  "description": "Displays the current editor font name in the statusbar",
+  "description": "Displays the current editor font family in the statusbar",
   "version": "0.0.1",
+  "publisher": "Codexophile",
   "repository": {
+    "type": "git",
     "url": "https://github.com/codexophile/font-status"
   },
   "engines": {
@@ -12,8 +14,20 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "font",
+    "editor",
+    "status bar",
+    "customization",
+    "typography"
+  ],
+  "icon": "logo.jpg",
+  "galleryBanner": {
+    "color": "#3299a8",
+    "theme": "dark"
+  },
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./extension.js",
   "contributes": {
