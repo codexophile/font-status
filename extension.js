@@ -10,7 +10,9 @@ function activate ( context ) {
   const updateStatusBar = () => {
     const config = vscode.workspace.getConfiguration( 'editor' );
     const fontFamily = config.get( 'fontFamily' ); // Get the current font family
-    statusBarItem.text = `Font: ${ fontFamily }`; // Display the font name in the status bar
+    const matches = fontFamily.match( /^(.+?)[,$]/ );
+    const activeFont = matches[ 1 ];
+    statusBarItem.text = `${ activeFont }`; // Display the font name in the status bar
     statusBarItem.show(); // Make the status bar item visible
   };
 
