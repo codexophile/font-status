@@ -14,14 +14,16 @@ function activate ( context ) {
   const updateStatusBar = () => {
     try {
       const config = vscode.workspace.getConfiguration( 'editor' );
-      const fontFamily = config.get( 'fontFamily' );
+      const fontFamilySetting = config.get( 'fontFamily' );
+      const icon = '$(symbol-text)';
 
-      if ( !fontFamily ) {
-        statusBarItem.text = "$(symbol-text) Default Font";
+      if ( !fontFamilySetting ) {
+        statusBarItem.text = `${ icon } Default`;
       } else {
         // Clean up font family string
-        const cleanFontFamily = fontFamily.replace( /['"]/g, '' ).split( ',' )[ 0 ].trim();
-        statusBarItem.text = `$(symbol-text) ${ cleanFontFamily }`;
+        const matches = fontFamilySetting.match( /^(.+?)[,$]/ );
+        const activeFontFamily = matches[ 1 ];
+        statusBarItem.text = `${ icon } ${ activeFontFamily }`;
       }
 
       statusBarItem.tooltip = "Current Editor Font Family";
