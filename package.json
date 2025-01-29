@@ -3,6 +3,9 @@
   "displayName": "font-status",
   "description": "Displays the current editor font name in the statusbar",
   "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/codexophile/font-status"
+  },
   "engines": {
     "vscode": "^1.96.0"
   },
