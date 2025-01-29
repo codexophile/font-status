@@ -1,7 +1,7 @@
 {
   "name": "font-status",
   "displayName": "Font Status",
-  "description": "Displays the current editor font family in the statusbar",
+  "description": "Displays the current editor's font family in the statusbar",
   "version": "0.0.3",
   "publisher": "Codexophile",
   "repository": {
