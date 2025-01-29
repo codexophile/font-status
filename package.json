@@ -2,7 +2,7 @@
   "name": "font-status",
   "displayName": "Font Status",
   "description": "Displays the current editor's font family in the statusbar",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "publisher": "Codexophile",
   "repository": {
