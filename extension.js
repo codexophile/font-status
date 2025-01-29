@@ -1,36 +1,33 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
+const vscode = require( 'vscode' );
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+function activate ( context ) {
+  // Create a status bar item
+  const statusBarItem = vscode.window.createStatusBarItem( vscode.StatusBarAlignment.Right, 100 );
+  statusBarItem.command = 'editor.action.fontName'; // Optional: Add a command to trigger when clicked
+  context.subscriptions.push( statusBarItem );
 
-/**
- * @param {vscode.ExtensionContext} context
- */
-function activate(context) {
+  // Function to update the status bar with the current font
+  const updateStatusBar = () => {
+    const config = vscode.workspace.getConfiguration( 'editor' );
+    const fontFamily = config.get( 'fontFamily' ); // Get the current font family
+    statusBarItem.text = `Font: ${ fontFamily }`; // Display the font name in the status bar
+    statusBarItem.show(); // Make the status bar item visible
+  };
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "font-status" is now active!');
+  // Update the status bar initially
+  updateStatusBar();
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('font-status.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from font-status!');
-	});
-
-	context.subscriptions.push(disposable);
+  // Listen for configuration changes (e.g., when the font is changed)
+  vscode.workspace.onDidChangeConfiguration( ( event ) => {
+    if ( event.affectsConfiguration( 'editor.fontFamily' ) ) {
+      updateStatusBar();
+    }
+  } );
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
+function deactivate () { }
 
 module.exports = {
-	activate,
-	deactivate
-}
+  activate,
+  deactivate
+};
