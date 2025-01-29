@@ -20,3 +20,5 @@ There are no known issues at this time.
 ### 0.0.1
 
 - Initial release of font-status.
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)

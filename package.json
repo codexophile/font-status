@@ -3,6 +3,7 @@
   "displayName": "Font Status",
   "description": "Displays the current editor's font family in the statusbar",
   "version": "0.0.3",
+  "license": "MIT",
   "publisher": "Codexophile",
   "repository": {
     "type": "git",
