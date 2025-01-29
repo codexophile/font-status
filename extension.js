@@ -2,29 +2,49 @@ const vscode = require( 'vscode' );
 
 function activate ( context ) {
   // Create a status bar item
-  const statusBarItem = vscode.window.createStatusBarItem( vscode.StatusBarAlignment.Right, 100 );
-  statusBarItem.command = 'editor.action.fontName'; // Optional: Add a command to trigger when clicked
+  let statusBarItem = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right,
+    100
+  );
+
+  // Add to subscriptions
   context.subscriptions.push( statusBarItem );
 
-  // Function to update the status bar with the current font
+  // Function to update the status bar with current font
   const updateStatusBar = () => {
-    const config = vscode.workspace.getConfiguration( 'editor' );
-    const fontFamily = config.get( 'fontFamily' ); // Get the current font family
-    const matches = fontFamily.match( /^(.+?)[,$]/ );
-    const activeFont = matches[ 1 ];
-    statusBarItem.text = `${ activeFont }`; // Display the font name in the status bar
-    statusBarItem.show(); // Make the status bar item visible
+    try {
+      const config = vscode.workspace.getConfiguration( 'editor' );
+      const fontFamily = config.get( 'fontFamily' );
+
+      if ( !fontFamily ) {
+        statusBarItem.text = "$(symbol-text) Default Font";
+      } else {
+        // Clean up font family string
+        const cleanFontFamily = fontFamily.replace( /['"]/g, '' ).split( ',' )[ 0 ].trim();
+        statusBarItem.text = `$(symbol-text) ${ cleanFontFamily }`;
+      }
+
+      statusBarItem.tooltip = "Current Editor Font Family";
+      statusBarItem.show();
+    } catch ( error ) {
+      console.error( 'Error updating font status bar:', error );
+      statusBarItem.text = "$(error) Font Error";
+      statusBarItem.show();
+    }
   };
 
-  // Update the status bar initially
+  // Update status bar initially
   updateStatusBar();
 
-  // Listen for configuration changes (e.g., when the font is changed)
-  vscode.workspace.onDidChangeConfiguration( ( event ) => {
+  // Listen for font changes
+  const configListener = vscode.workspace.onDidChangeConfiguration( event => {
     if ( event.affectsConfiguration( 'editor.fontFamily' ) ) {
       updateStatusBar();
     }
   } );
+
+  // Add the listener to subscriptions
+  context.subscriptions.push( configListener );
 }
 
 function deactivate () { }
