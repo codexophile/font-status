@@ -1,9 +1,9 @@
 # Change Log
 
-All notable changes to the "font-status" extension will be documented in this file.
+### 0.1.0
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Added functionality to quickly change the font by clicking the status bar button.
 
-## [Unreleased]
+### 0.0.1
 
-- Initial release
+- Initial release of font-status.
