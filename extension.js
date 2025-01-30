@@ -15,7 +15,9 @@ function activate ( context ) {
 
   // Function to update the status bar with current font
   const updateStatusBar = () => {
+
     try {
+
       const config = vscode.workspace.getConfiguration( 'editor' );
       const fontFamilySetting = config.get( 'fontFamily' );
       const icon = '$(symbol-text)';
@@ -32,11 +34,15 @@ function activate ( context ) {
       statusBarItem.tooltip = "Click to change font";
       statusBarItem.command = 'extension.changeFont';
       statusBarItem.show();
+
     } catch ( error ) {
+
       console.error( 'Error updating font status bar:', error );
       statusBarItem.text = "$(error) Font Error";
       statusBarItem.show();
+
     }
+
   };
 
   // Update status bar initially
