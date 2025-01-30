@@ -1,21 +1,14 @@
 ## Features
 
 - Displays the current font name used in the editor in the status bar.
+- You can click the newly added status bar button to quickly switch between fonts.
 - Automatically updates the font name in the status bar when the font is changed in the settings.
 
-## Requirements
-
-This extension has no additional requirements or dependencies.
-
-## Extension Settings
-
-This extension does not add any VS Code settings through the `contributes.configuration` extension point.
-
-## Known Issues
-
-There are no known issues at this time.
-
 ## Release Notes
+
+### 0.1.0
+
+- Added functionality to quickly change the font by clicking the status bar button.
 
 ### 0.0.1
 
