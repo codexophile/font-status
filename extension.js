@@ -51,25 +51,35 @@ function activate ( context ) {
 
   // Register command to change font
   let disposable = vscode.commands.registerCommand( 'extension.changeFont', async () => {
+
     const config = vscode.workspace.getConfiguration( 'editor' );
-    const currentFont = config.get( 'fontFamily' );
-    const fonts = [
-      'Consolas', 'Courier New', 'Monaco', 'Menlo', 'Source Code Pro', 'Fira Code', 'Droid Sans Mono', 'Inconsolata', 'Ubuntu Mono', 'JetBrains Mono'
-    ];
+    const fonts = getFonts();
+    const activeFont = getActiveFont();
 
     const selectedFont = await vscode.window.showQuickPick( fonts, {
-      placeHolder: `Current font: ${ currentFont }`,
+      placeHolder: `Current font: ${ activeFont }`,
     } );
 
     if ( selectedFont ) {
       await config.update( 'fontFamily', selectedFont, vscode.ConfigurationTarget.Global );
     }
+
   } );
 
   context.subscriptions.push( disposable );
 }
 
 function deactivate () { }
+
+function getFonts () {
+  const config = vscode.workspace.getConfiguration( 'editor' );
+  const fontFamilyString = config.get( 'fontFamily' );
+  return fontFamilyString.split( ',' );
+}
+
+function getActiveFont () {
+  return getFonts()[ 0 ].trim();
+}
 
 module.exports = {
   activate,
