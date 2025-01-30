@@ -74,11 +74,13 @@ function deactivate () { }
 function getFonts () {
   const config = vscode.workspace.getConfiguration( 'editor' );
   const fontFamilyString = config.get( 'fontFamily' );
-  return fontFamilyString.split( ',' );
+  return fontFamilyString.split( ',' ).map( arrayItem => {
+    return arrayItem.trim();
+  } );
 }
 
 function getActiveFont () {
-  return getFonts()[ 0 ].trim();
+  return getFonts()[ 0 ];
 }
 
 module.exports = {
