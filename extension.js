@@ -26,7 +26,8 @@ function activate ( context ) {
         statusBarItem.text = `${ icon } ${ activeFontFamily }`;
       }
 
-      statusBarItem.tooltip = "Current Editor Font Family";
+      statusBarItem.tooltip = "Click to change font";
+      statusBarItem.command = 'extension.changeFont';
       statusBarItem.show();
     } catch ( error ) {
       console.error( 'Error updating font status bar:', error );
@@ -47,6 +48,25 @@ function activate ( context ) {
 
   // Add the listener to subscriptions
   context.subscriptions.push( configListener );
+
+  // Register command to change font
+  let disposable = vscode.commands.registerCommand( 'extension.changeFont', async () => {
+    const config = vscode.workspace.getConfiguration( 'editor' );
+    const currentFont = config.get( 'fontFamily' );
+    const fonts = [
+      'Consolas', 'Courier New', 'Monaco', 'Menlo', 'Source Code Pro', 'Fira Code', 'Droid Sans Mono', 'Inconsolata', 'Ubuntu Mono', 'JetBrains Mono'
+    ];
+
+    const selectedFont = await vscode.window.showQuickPick( fonts, {
+      placeHolder: `Current font: ${ currentFont }`,
+    } );
+
+    if ( selectedFont ) {
+      await config.update( 'fontFamily', selectedFont, vscode.ConfigurationTarget.Global );
+    }
+  } );
+
+  context.subscriptions.push( disposable );
 }
 
 function deactivate () { }
