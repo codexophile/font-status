@@ -1,5 +1,8 @@
 const vscode = require( 'vscode' );
 
+/**
+ * @param {{ subscriptions: vscode.Disposable[]; }} context
+ */
 function activate ( context ) {
   // Create a status bar item
   let statusBarItem = vscode.window.createStatusBarItem(
@@ -61,7 +64,9 @@ function activate ( context ) {
     } );
 
     if ( selectedFont ) {
-      await config.update( 'fontFamily', selectedFont, vscode.ConfigurationTarget.Global );
+      const newArray = rearrangeArray( fonts, selectedFont );
+      const newSetting = newArray.join( ', ' );
+      await config.update( 'fontFamily', newSetting, vscode.ConfigurationTarget.Global );
     }
 
   } );
@@ -74,13 +79,26 @@ function deactivate () { }
 function getFonts () {
   const config = vscode.workspace.getConfiguration( 'editor' );
   const fontFamilyString = config.get( 'fontFamily' );
-  return fontFamilyString.split( ',' ).map( arrayItem => {
+  return fontFamilyString.split( ',' ).map( (/** @type {string} */ arrayItem ) => {
     return arrayItem.trim();
   } );
 }
 
 function getActiveFont () {
   return getFonts()[ 0 ];
+}
+
+/**
+ * @param {any[]} arr
+ * @param {any} selectedElement
+ */
+function rearrangeArray ( arr, selectedElement ) {
+  if ( !arr.includes( selectedElement ) ) {
+    throw new Error( 'Selected element not found in array' );
+  }
+  const filteredArr = arr.filter( (/** @type {any} */ item ) => item !== selectedElement );
+  const sortedArr = filteredArr.sort();
+  return [ selectedElement, ...sortedArr ];
 }
 
 module.exports = {
